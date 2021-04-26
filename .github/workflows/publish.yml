@@ -1,9 +1,15 @@
 name: Publish
 
+# on:
+#   push:
+#     branches:
+#       - master
+
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch:
+  create:
+    tags:
+      - v*;
 
 jobs:
   publish:

@@ -12,8 +12,8 @@ import './App.global.css';
 import { ToastContainer} from 'react-toastify';
 
 import LoginPage from './components/LoginPage';
-import Navbar from './components/Navbar.js';
-import UploadPage from './components/UploadPage.tsx';
+import Navbar from './components/Navbar';
+import UploadPage from './components/UploadPage';
 
 import 'model-viewer.min.js';
 
