@@ -15,7 +15,7 @@ import LoginPage from './LoginPage';
 import Navbar from './Navbar.js';
 
 import { toast } from 'react-toastify';
-const Buffer = require('buffer/').Buffer 
+const Buffer = require('buffer/').Buffer;
 import fs from 'fs';
 
 import '../model-viewer.min.js';
@@ -63,7 +63,7 @@ export default function UploadPage(props: any) {
   const onDrop = useCallback(async (acceptedFiles) => {
     const file = acceptedFiles[0];
     console.log(file);
-    
+
     const targetPath: string = file.path;
     setFBXFilePath(targetPath);
 
@@ -71,11 +71,22 @@ export default function UploadPage(props: any) {
       console.log('Converting...');
       let fbx2gltfBinary = '';
 
-      fbx2gltfBinary = path.join(
-        path.dirname(__dirname),
-        'FBX2glTF',
-        'FBX2glTF-win32.exe'
-      );
+      switch (process.platform) {
+        case 'win32':
+          fbx2gltfBinary = path.join(
+            path.dirname(__dirname),
+            'FBX2glTF',
+            'FBX2glTF-win32.exe'
+          );
+          break;
+        case 'darwin':
+          fbx2gltfBinary = path.join(
+            path.dirname(__dirname),
+            'FBX2glTF',
+            'FBX2glTF-darwin-x64'
+          );
+          break;
+      }
 
       const tempPath = window.tempPath;
       const tempName = path.basename(tmp.tmpNameSync());
@@ -100,19 +111,19 @@ export default function UploadPage(props: any) {
   const [uploading, setUploading] = useState(false);
 
   const uploadFiles = async (uploadUrl: any, file: any) => {
-      const { url, fields } = uploadUrl;
-      const data = {
-        ...fields,
-        file: file,
-      };
-      const formData = new FormData();
-      for (const name in data) formData.append(name, data[name]);
-      const res1 = await fetch(url, {
-        method: 'POST',
-        body: formData,
-      });
-      console.log(res1);
-  }
+    const { url, fields } = uploadUrl;
+    const data = {
+      ...fields,
+      file: file,
+    };
+    const formData = new FormData();
+    for (const name in data) formData.append(name, data[name]);
+    const res1 = await fetch(url, {
+      method: 'POST',
+      body: formData,
+    });
+    console.log(res1);
+  };
 
   const upload = async () => {
     // const fileSize = files.reduce((accumulator, x) => accumulator + x.size, 0);
@@ -132,17 +143,8 @@ export default function UploadPage(props: any) {
 
     // const url = ref.current.toDataURL();
     const image = await ref.current.toBlob();
-    const imageFiles : Blob[] = [];
-    imageFiles.push(image)
-    // imageFiles.push({
-    //   uri: url,
-    //   type: 'png',
-    // });
-
-    // const a = document.createElement('a');
-    // a.href = url;
-    // a.download = 'modelViewer_toDataURL.png';
-    // a.click();
+    const imageFiles: Blob[] = [];
+    imageFiles.push(image);
 
     setUploading(true);
     let userID = props.user.id;
@@ -225,17 +227,12 @@ export default function UploadPage(props: any) {
     const fbxFileBuffer = fs.readFileSync(fbxFilePath);
     const glbFileBuffer = fs.readFileSync(filePath);
 
-    var fbxFileBlob = new Blob([ fbxFileBuffer ])
-    var glbFileBlob = new Blob([ glbFileBuffer ])
-
-    console.log('hi');
-    console.log(fbxFileBuffer);
-    console.log(fbxFileBlob);
-    console.log('hi');
+    var fbxFileBlob = new Blob([fbxFileBuffer]);
+    var glbFileBlob = new Blob([glbFileBuffer]);
 
     await uploadFiles(uploadUrlData.fbxUploadUrl, fbxFileBlob);
     await uploadFiles(uploadUrlData.glbUploadUrl, glbFileBlob);
-    
+
     setUploading(false);
 
     if (!error)
@@ -248,8 +245,6 @@ export default function UploadPage(props: any) {
         draggable: true,
         progress: undefined,
       });
-
-    // URL.revokeObjectURL(url);
 
     resetPackageName();
     // resetDescription();

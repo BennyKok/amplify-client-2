@@ -60,4 +60,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           #  --mac --linux
         run: |
-          yarn postinstall && yarn build && yarn electron-builder --publish always --win
+          yarn postinstall && yarn build && yarn electron-builder --publish always --win --mac

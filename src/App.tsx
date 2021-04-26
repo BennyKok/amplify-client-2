@@ -6,7 +6,6 @@ import {
   Link,
   useHistory,
 } from 'react-router-dom';
-import icon from '../assets/icon.svg';
 import './App.global.css';
 
 import { ToastContainer} from 'react-toastify';
@@ -17,17 +16,10 @@ import UploadPage from './components/UploadPage';
 
 import 'model-viewer.min.js';
 
-import { useCallback, useState, useEffect } from 'react';
-import { useDropzone } from 'react-dropzone';
-
 const tmp = require('tmp');
 
-import { handleError } from './Utils';
 import { supabase } from './Store';
 
-import path from 'path';
-
-const { exec } = require('child_process');
 
 export default function App() {
   const [user, updateUser] = React.useState<any>();
