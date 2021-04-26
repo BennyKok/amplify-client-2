@@ -49,11 +49,14 @@ jobs:
           yarn install
 
       - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          envkey_REACT_APP_SUPABASE_KEY: ${{ secrets.REACT_APP_SUPABASE_KEY }}
-          envkey_REACT_APP_SUPABASE_URL: ${{ secrets.REACT_APP_SUPABASE_URL }}
-          file_name: .env
+        env:
+            REACT_APP_SUPABASE_KEY: ${{ secrets.REACT_APP_SUPABASE_KEY }}
+            REACT_APP_SUPABASE_URL: ${{ secrets.REACT_APP_SUPABASE_URL }}
+        run: |
+          echo -e "
+            REACT_APP_SUPABASE_KEY $REACT_APP_SUPABASE_KEY\n
+            REACT_APP_SUPABASE_URL $REACT_APP_SUPABASE_URL\n
+            " > .env 
 
       - name: Publish releases
         env:
