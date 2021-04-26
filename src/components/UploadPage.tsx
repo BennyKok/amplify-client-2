@@ -76,14 +76,14 @@ export default function UploadPage(props: any) {
           fbx2gltfBinary = path.join(
             path.dirname(__dirname),
             'FBX2glTF',
-            'FBX2glTF-win32.exe'
+            'FBX2glTF-win.exe'
           );
           break;
         case 'darwin':
           fbx2gltfBinary = path.join(
             path.dirname(__dirname),
             'FBX2glTF',
-            'FBX2glTF-darwin-x64'
+            'FBX2glTF-mac-x64'
           );
           break;
       }

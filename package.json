@@ -38,7 +38,8 @@
       "index.html",
       "main.prod.js",
       "main.prod.js.map",
-      "package.json"
+      "package.json",
+      "supabase.js"
     ],
     "afterSign": ".erb/scripts/Notarize.js",
     "mac": {
@@ -83,7 +84,7 @@
     },
     "extraResources": [
       "./assets/**",
-      "./FBX2glTF/FBX2glTF-${platform}*"
+      "./FBX2glTF/FBX2glTF-${os}*"
     ],
     "publish": {
       "provider": "github",
