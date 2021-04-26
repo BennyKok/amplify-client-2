@@ -48,6 +48,13 @@ jobs:
         run: |
           yarn install
 
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_REACT_APP_SUPABASE_KEY: ${{ secrets.REACT_APP_SUPABASE_KEY }}
+          envkey_REACT_APP_SUPABASE_URL: ${{ secrets.REACT_APP_SUPABASE_URL }}
+          file_name: .env
+
       - name: Publish releases
         env:
           # These values are used for auto updates signing
