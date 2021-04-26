@@ -1,5 +1,8 @@
 {
   "packageFiles": [
+    "src/package.json"
+  ],
+  "bumpFiles": [
     {
       "filename": "src/package.json",
       "type": "json"
