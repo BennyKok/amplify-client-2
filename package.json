@@ -1,7 +1,6 @@
 {
   "name": "com.bennykok.amplify",
   "productName": "Amplify",
-  "version": "0.1.1",
   "description": "Electron application boilerplate based on React, React Router, Webpack, React Fast Refresh for rapid application development",
   "scripts": {
     "build": "concurrently \"yarn build:main\" \"yarn build:renderer\"",
@@ -87,8 +86,14 @@
       "./FBX2glTF/FBX2glTF-${platform}*"
     ],
     "publish": {
-      "provider": "github"
+      "provider": "github",
+      "owner": "BennyKok",
+      "repo": "amplify-client-2"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BennyKok/amplify-client-2.git"
   },
   "license": "MIT",
   "devDependencies": {
