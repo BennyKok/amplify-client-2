@@ -23,7 +23,7 @@ export default function Navbar(props) {
     const Bar = () => (
         <ul className="flex flex-col lg:flex-row list-none lg:ml-auto text-left">
             <li className="nav-item self-end flex" >
-                <MenuItem to="/home" label="Packages" icon={<AiOutlineShareAlt />} />
+                <MenuItem to="/upload" label="Upload" icon={<AiOutlineShareAlt />} />
                 {/* <MenuItem to="" label="Tweet" icon={<AiOutlineRetweet />} /> */}
             </li>
             {

@@ -19,6 +19,7 @@ import 'model-viewer.min.js';
 const tmp = require('tmp');
 
 import { supabase } from './Store';
+import HomePage from './components/HomePage';
 
 
 export default function App() {
@@ -43,6 +44,9 @@ export default function App() {
       <Navbar user={user} />
       <Switch>
         <Route path="/" exact>
+          <HomePage />
+        </Route>
+        <Route path="/upload" exact>
           <UploadPage user={user} />
         </Route>
         <Route path="/login" component={LoginPage} />
