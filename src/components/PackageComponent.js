@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Transition } from "@headlessui/react";
+import React, { useEffect, useState } from 'react';
+import { Transition } from '@headlessui/react';
 // import Viewer from "react-viewer";
 // import DayJS from "react-dayjs";
 // import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 export function PackageLoadingIndicator(props) {
   return (
     <div
       className={
-        "fixed w-screen h-screen top-0 left-0 flex items-center justify-center z-30 mt-14 lg:mt-20"
+        'fixed w-screen h-screen top-0 left-0 flex items-center justify-center z-30 mt-14 lg:mt-20'
       }
     >
       <div className="absolute w-96 h-32 bg-white dark:bg-gray-500 dark:text-white rounded-md shadow-lg flex items-center justify-center text-2xl">
@@ -19,10 +19,10 @@ export function PackageLoadingIndicator(props) {
   );
 }
 
-function removeExtension(filename){
-    var lastDotPosition = filename.lastIndexOf(".");
-    if (lastDotPosition === -1) return filename;
-    else return filename.substr(0, lastDotPosition);
+function removeExtension(filename) {
+  var lastDotPosition = filename.lastIndexOf('.');
+  if (lastDotPosition === -1) return filename;
+  else return filename.substr(0, lastDotPosition);
 }
 
 // export function PackagePopup(props) {
@@ -207,7 +207,7 @@ export function PackageItem({ className, ...props }) {
     if (images) {
       for (let index = 0; index < images.length; index++) {
         const img = props._package.id + images[index];
-        imgs.push("https://d3evhy8mwh3ep4.cloudfront.net/" + img);
+        imgs.push('https://d3evhy8mwh3ep4.cloudfront.net/' + img);
       }
       setImgs(imgs);
     }
@@ -220,25 +220,38 @@ export function PackageItem({ className, ...props }) {
   return (
     <div
       tabIndex="0"
-      className={`${className} flex flex-col pb-4 rounded-lg shadow-md h-60 bg-white dark:bg-gray-500 transition-transform duration-75 transform hover:scale-105 sm:motion-reduce:hover:animate-none`}
+      className={`${className} flex flex-row justify-between rounded-lg shadow-md h-24 bg-white dark:bg-gray-500`}
       {...props}
     >
-      {imgs && imgs.length > 0 ? (
-        <img
-          src={imgs[0]}
-          className="rounded-t-lg w-full object-cover object-top"
-          style={{ height: "80%" }}
-        ></img>
-      ) : (
-        <div
-          className="rounded-t-lg w-full bg-gray-100 dark:bg-gray-400"
-          style={{ height: "80%" }}
-        ></div>
-      )}
-      <div className="px-4 dark:text-white" style={{ height: "20%" }}>
-        <div className="text-md font-black mt-2">{props._package.name}</div>
-        <div className="text-sm">{props._package.description}</div>
+      <div className="flex flex-row ">
+        {imgs && imgs.length > 0 ? (
+          <img
+            src={imgs[0]}
+            className="rounded-t-lg w-32 h-full object-contain object-center"
+            // style={{ height: "80%" }}
+          ></img>
+        ) : (
+          <div
+            className="rounded-t-lg w-32 h-full bg-gray-100 dark:bg-gray-400"
+            // style={{ height: "80%" }}
+          ></div>
+        )}
+        <div className="px-4 dark:text-white" style={{ height: '20%' }}>
+          <div className="text-md font-black mt-2">{props._package.name}</div>
+          {/* <div className="text-sm">{props._package.description}</div> */}
+          <div className="text-sm">
+            {props._package.user ? props._package.user.name : null}{' '}
+          </div>
+        </div>
       </div>
+      {/* <div> */}
+        <button
+          onClick={props.onClick}
+          className="mt-2 mb-2 mr-4 self-center items-center shadow-sm flex bg-transparent hover:bg-blue-500 dark:text-white text-gray-900 font-semibold hover:text-white py-2 px-4 border border-gray-700 dark:border-white hover:border-transparent rounded transition-transform duration-75 transform hover:scale-105 sm:motion-reduce:hover:animate-none"
+        >
+          Import
+        </button>
+      {/* </div> */}
     </div>
   );
 }
@@ -248,7 +261,7 @@ export function LoadMoreSection(props) {
     <div className="mt-4 flex justify-center w-full pb-20">
       <div className="flex shadow-sm mx-4">
         <button
-          className="relative inline-flex dark:text-white items-center px-4 py-2 rounded-l-md rounded-r-md border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-500"
+          className="relative inline-flex text-white hover:text-gray-500 items-center px-4 py-2 rounded-l-md rounded-r-md border border-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-500"
           onClick={props.loadMore}
         >
           Load More

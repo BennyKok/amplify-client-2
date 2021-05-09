@@ -11,7 +11,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
@@ -54,6 +54,16 @@ const installExtensions = async () => {
 
 const tmpobj = tmp.dirSync({ unsafeCleanup: true });
 
+let projectPath: string;
+
+ipcMain.on('on-update-project-path', (event, arg) => {
+  const temp = dialog.showOpenDialogSync({ properties: ['openDirectory'] });
+  if (temp) projectPath = temp[0];
+  // projectPath = arg
+  // console.log(arg);
+  if (projectPath) event.reply('on-update-project-path', projectPath);
+});
+
 const createWindow = async () => {
   if (
     process.env.NODE_ENV === 'development' ||
@@ -91,12 +101,11 @@ const createWindow = async () => {
     if (process.env.START_MINIMIZED) {
       mainWindow.minimize();
     } else {
-      mainWindow.webContents.send("tempPath",tmpobj.name)
+      mainWindow.webContents.send('tempPath', tmpobj.name);
       mainWindow.show();
       mainWindow.focus();
     }
   });
-
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -110,6 +119,34 @@ const createWindow = async () => {
     event.preventDefault();
     shell.openExternal(url);
   });
+
+  mainWindow.webContents.session.on(
+    'will-download',
+    (event, item, webContents) => {
+      // Set the save path, making Electron not to prompt a save dialog.
+      // console.log(item.getFilename());
+      item.setSavePath(path.join(projectPath, item.getFilename()));
+
+      item.on('updated', (event, state) => {
+        if (state === 'interrupted') {
+          console.log('Download is interrupted but can be resumed');
+        } else if (state === 'progressing') {
+          if (item.isPaused()) {
+            console.log('Download is paused');
+          } else {
+            console.log(`Received bytes: ${item.getReceivedBytes()}`);
+          }
+        }
+      });
+      item.once('done', (event, state) => {
+        if (state === 'completed') {
+          console.log('Download successfully');
+        } else {
+          console.log(`Download failed: ${state}`);
+        }
+      });
+    }
+  );
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
